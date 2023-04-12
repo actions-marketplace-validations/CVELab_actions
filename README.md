@@ -1,6 +1,5 @@
 # <img width="24" height="24" src="docs/assets/logo.svg"> Github Pull Request
 
-[![CI](https://github.com/cvelab/actions/workflows/CI/badge.svg)](https://github.com/cvelab/actions/actions?query=workflow%3ACI)
 [![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Create%20Pull%20Request-blue.svg?colorA=24292e&colorB=0366d6&style=flat&longCache=true&logo=github)](https://github.com/marketplace/actions/gh-pull-request)
 
 A GitHub action to create a pull request for changes to your repository in the actions workspace.
@@ -260,11 +259,6 @@ jobs:
           milestone: 1
           draft: false
 ```
-
-An example based on the above reference configuration creates pull requests that look like this:
-
-![Pull Request Example](docs/assets/pull-request-example.png)
-
 ## License
 
 [MIT](LICENSE)
