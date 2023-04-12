@@ -9,7 +9,7 @@ jobs:
       - name: Slash Command Dispatch
         uses: cvelab/slash-command-dispatch@v3
         with:
-          token: ${{ secrets.ACTIONS_BOT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           config: >
             [
               {
