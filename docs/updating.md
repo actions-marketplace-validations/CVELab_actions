@@ -11,7 +11,7 @@
 - At the end of the action run the local repository is now checked out on the branch or commit that it was when the action started.
 - Any uncommitted tracked or untracked changes are now stashed and restored at the end of the action run. Currently, this can only occur when using the `add-paths` input, which allows for changes to not be committed. Previously, any uncommitted changes would be destroyed.
 - The proxy implementation has been revised but is not expected to have any change in behaviour. It continues to support the standard environment variables `http_proxy`, `https_proxy` and `no_proxy`.
-- Now sets the git `safe.directory` configuration for the local repository path. The configuration is removed when the action completes. Fixes issue https://github.com/peter-evans/create-pull-request/issues/1170.
+- Now sets the git `safe.directory` configuration for the local repository path. The configuration is removed when the action completes. Fixes issue <https://github.com/cvelab/actions/issues/1170>.
 - Now determines the git directory path using the `git rev-parse --git-dir` command. This allows users with custom repository configurations to use the action.
 - Improved handling of the `team-reviewers` input and associated errors.
 
@@ -33,30 +33,32 @@
 
 ### Behaviour changes
 
-- The `author` input now defaults to the user who triggered the workflow run. This default is set via [action.yml](../action.yml) as `${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>`, where `github.actor` is the GitHub user account associated with the run. For example, `peter-evans <peter-evans@users.noreply.github.com>`.
+- The `author` input now defaults to the user who triggered the workflow run. This default is set via [action.yml](../action.yml) as `${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>`, where `github.actor` is the GitHub user account associated with the run. For example, `cvelab <cvelab@users.noreply.github.com>`.
 
   To continue to use the `v2` default, set the `author` input as follows.
+
   ```yaml
-      - uses: peter-evans/create-pull-request@v3
+      - uses: cvelab/actions@v3
         with:
           author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
   ```
 
 - The `author` and `committer` inputs are no longer cross-used if only one is supplied. Additionally, when neither input is set, the `author` and `committer` are no longer determined from an existing identity set in git config. In both cases, the inputs will fall back to their default set in [action.yml](../action.yml).
 
-- Deprecated inputs `project` and `project-column` have been removed in favour of an additional action step. See [Create a project card](https://github.com/peter-evans/create-pull-request#create-a-project-card) for details.
+- Deprecated inputs `project` and `project-column` have been removed in favour of an additional action step. See [Create a project card](https://github.com/cvelab/actions#create-a-project-card) for details.
 
 - Deprecated output `pr_number` has been removed in favour of `pull-request-number`.
 
 - Input `request-to-parent` has been removed in favour of `push-to-fork`. This greatly simplifies pushing the pull request branch to a fork of the parent repository. See [Push pull request branches to a fork](concepts-guidelines.md#push-pull-request-branches-to-a-fork) for details.
 
   e.g.
+
   ```yaml
       - uses: actions/checkout@v2
 
       # Make changes to pull request here
 
-      - uses: peter-evans/create-pull-request@v3
+      - uses: cvelab/actions@v3
         with:
           token: ${{ secrets.MACHINE_USER_PAT }}
           push-to-fork: machine-user/fork-of-repository
@@ -70,6 +72,7 @@
 
 - Inputs `labels`, `assignees`, `reviewers` and `team-reviewers` can now be newline separated, or comma separated.
   e.g.
+
   ```yml
           labels: |
             chore
@@ -84,6 +87,7 @@
 - `v2` now expects repositories to be checked out with `actions/checkout@v2`
 
   To use `actions/checkout@v1` the following step to checkout the branch is necessary.
+
   ```yml
       - uses: actions/checkout@v1
       - name: Checkout branch
@@ -99,6 +103,6 @@
 
 ### What's new
 
-- Unpushed commits made during the workflow before the action runs will now be considered as changes to be raised in the pull request. See [Create your own commits](https://github.com/peter-evans/create-pull-request#create-your-own-commits) for details.
+- Unpushed commits made during the workflow before the action runs will now be considered as changes to be raised in the pull request. See [Create your own commits](https://github.com/cvelab/actions#create-your-own-commits) for details.
 - New commits made to the pull request base will now be taken into account when pull requests are updated.
 - If an updated pull request no longer differs from its base it will automatically be closed and the pull request branch deleted.

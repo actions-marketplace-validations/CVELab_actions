@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>create-pull-request GitHub action</title>
+    <title>gh-pull-request GitHub action</title>
 </head>
 
 <body>
@@ -36,11 +36,11 @@
             subject: "<uncommitted changes>",
             body: "Changes to the local base during the workflow",
         })
-        const remotePatch = gitgraph.branch("create-pull-request/patch");
+        const remotePatch = gitgraph.branch("gh-pull-request/patch");
         remotePatch.merge({
             branch: localMain,
             commitOptions: {
-                subject: "[create-pull-request] automated change",
+                subject: "[gh-pull-request] automated change",
                 body: "Changes pushed to create the remote branch",
             },
         });
@@ -54,7 +54,7 @@
         remotePatch.merge({
             branch: localMain2,
             commitOptions: {
-                subject: "[create-pull-request] automated change",
+                subject: "[gh-pull-request] automated change",
                 body: "Changes force pushed to update the remote branch",
             },
         });

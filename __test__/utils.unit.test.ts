@@ -46,50 +46,50 @@ describe('utils tests', () => {
 
   test('getRemoteDetail successfully parses remote URLs', async () => {
     const remote1 = utils.getRemoteDetail(
-      'https://github.com/peter-evans/create-pull-request'
+      'https://github.com/cvelab/actions'
     )
     expect(remote1.protocol).toEqual('HTTPS')
-    expect(remote1.repository).toEqual('peter-evans/create-pull-request')
+    expect(remote1.repository).toEqual('cvelab/actions')
 
     const remote2 = utils.getRemoteDetail(
-      'https://xxx:x-oauth-basic@github.com/peter-evans/create-pull-request'
+      'https://xxx:x-oauth-basic@github.com/cvelab/actions'
     )
     expect(remote2.protocol).toEqual('HTTPS')
-    expect(remote2.repository).toEqual('peter-evans/create-pull-request')
+    expect(remote2.repository).toEqual('cvelab/actions')
 
     const remote3 = utils.getRemoteDetail(
-      'git@github.com:peter-evans/create-pull-request.git'
+      'git@github.com:cvelab/actions.git'
     )
     expect(remote3.protocol).toEqual('SSH')
-    expect(remote3.repository).toEqual('peter-evans/create-pull-request')
+    expect(remote3.repository).toEqual('cvelab/actions')
 
     const remote4 = utils.getRemoteDetail(
-      'https://github.com/peter-evans/create-pull-request.git'
+      'https://github.com/cvelab/actions.git'
     )
     expect(remote4.protocol).toEqual('HTTPS')
-    expect(remote4.repository).toEqual('peter-evans/create-pull-request')
+    expect(remote4.repository).toEqual('cvelab/actions')
 
     const remote5 = utils.getRemoteDetail(
-      'https://github.com/peter-evans/ungit'
+      'https://github.com/cvelab/ungit'
     )
     expect(remote5.protocol).toEqual('HTTPS')
-    expect(remote5.repository).toEqual('peter-evans/ungit')
+    expect(remote5.repository).toEqual('cvelab/ungit')
 
     const remote6 = utils.getRemoteDetail(
-      'https://github.com/peter-evans/ungit.git'
+      'https://github.com/cvelab/ungit.git'
     )
     expect(remote6.protocol).toEqual('HTTPS')
-    expect(remote6.repository).toEqual('peter-evans/ungit')
+    expect(remote6.repository).toEqual('cvelab/ungit')
 
     const remote7 = utils.getRemoteDetail(
-      'git@github.com:peter-evans/ungit.git'
+      'git@github.com:cvelab/ungit.git'
     )
     expect(remote7.protocol).toEqual('SSH')
-    expect(remote7.repository).toEqual('peter-evans/ungit')
+    expect(remote7.repository).toEqual('cvelab/ungit')
   })
 
   test('getRemoteDetail fails to parse a remote URL', async () => {
-    const remoteUrl = 'https://github.com/peter-evans'
+    const remoteUrl = 'https://github.com/cvelab'
     try {
       utils.getRemoteDetail(remoteUrl)
       // Fail the test if an error wasn't thrown
@@ -105,24 +105,24 @@ describe('utils tests', () => {
     const url1 = utils.getRemoteUrl(
       'HTTPS',
       'github.com',
-      'peter-evans/create-pull-request'
+      'cvelab/actions'
     )
-    expect(url1).toEqual('https://github.com/peter-evans/create-pull-request')
+    expect(url1).toEqual('https://github.com/cvelab/actions')
 
     const url2 = utils.getRemoteUrl(
       'SSH',
       'github.com',
-      'peter-evans/create-pull-request'
+      'cvelab/actions'
     )
-    expect(url2).toEqual('git@github.com:peter-evans/create-pull-request.git')
+    expect(url2).toEqual('git@github.com:cvelab/actions.git')
 
     const url3 = utils.getRemoteUrl(
       'HTTPS',
       'mygithubserver.com',
-      'peter-evans/create-pull-request'
+      'cvelab/actions'
     )
     expect(url3).toEqual(
-      'https://mygithubserver.com/peter-evans/create-pull-request'
+      'https://mygithubserver.com/cvelab/actions'
     )
   })
 

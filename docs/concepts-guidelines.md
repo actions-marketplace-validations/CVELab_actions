@@ -21,7 +21,7 @@ This document covers terminology, how the action works, general usage guidelines
 
 ## Terminology
 
-[Pull requests](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#about-pull-requests) are proposed changes to a repository branch that can be reviewed by a repository's collaborators before being accepted or rejected. 
+[Pull requests](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#about-pull-requests) are proposed changes to a repository branch that can be reviewed by a repository's collaborators before being accepted or rejected.
 
 A pull request references two branches:
 
@@ -49,7 +49,7 @@ Workflow steps:
 
 1. Checkout the `base` branch
 2. Make changes
-3. Execute `create-pull-request` action
+3. Execute `gh-pull-request` action
 
 The following git diagram shows how the action creates and updates a pull request branch.
 
@@ -88,7 +88,7 @@ In these cases, you *must supply* the `base` input so the action can rebase chan
 Workflows triggered by [`pull_request`](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#pull_request) events will by default check out a merge commit. Set the `base` input as follows to base the new pull request on the current pull request's branch.
 
 ```yml
-      - uses: peter-evans/create-pull-request@v5
+      - uses: cvelab/actions@v5
         with:
           base: ${{ github.head_ref }}
 ```
@@ -96,7 +96,7 @@ Workflows triggered by [`pull_request`](https://docs.github.com/en/actions/refer
 Workflows triggered by [`release`](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#release) events will by default check out a tag. For most use cases, you will need to set the `base` input to the branch name of the tagged commit.
 
 ```yml
-      - uses: peter-evans/create-pull-request@v5
+      - uses: cvelab/actions@v5
         with:
           base: main
 ```
@@ -160,11 +160,12 @@ From a security perspective it's good practice to fork third-party actions, revi
 By using third-party actions directly the risk exists that it could be modified to do something malicious, such as capturing secrets.
 
 Alternatively, use the action directly and reference the commit hash for the version you want to target.
+
 ```yml
   - uses: thirdparty/foo-action@172ec762f2ac8e050062398456fccd30444f8f30
 ```
 
-This action uses [ncc](https://github.com/vercel/ncc) to compile the Node.js code and dependencies into a single JavaScript file under the [dist](https://github.com/peter-evans/create-pull-request/tree/main/dist) directory.
+This action uses [ncc](https://github.com/vercel/ncc) to compile the Node.js code and dependencies into a single JavaScript file under the [dist](https://github.com/cvelab/actions/tree/main/dist) directory.
 
 ## Advanced usage
 
@@ -180,7 +181,7 @@ Checking out a branch from a different repository from where the workflow is exe
 
       # Make changes to pull request here
 
-      - uses: peter-evans/create-pull-request@v5
+      - uses: cvelab/actions@v5
         with:
           token: ${{ secrets.PAT }}
 ```
@@ -191,7 +192,7 @@ Checking out a branch from a different repository from where the workflow is exe
 Allowing the action to push with a configured deploy key will trigger `on: push` workflows. This makes it an alternative to using a PAT to trigger checks for pull requests.
 Note that you cannot use deploy keys alone to [create a pull request in a remote repository](#creating-pull-requests-in-a-remote-repository) because then using a PAT would become a requirement. This method only makes sense if creating a pull request in the repository where the workflow is running.
 
-How to use SSH (deploy keys) with create-pull-request action:
+How to use SSH (deploy keys) with gh-pull-request action:
 
 1. [Create a new SSH key pair](https://docs.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key) for your repository. Do not set a passphrase.
 2. Copy the contents of the public key (.pub file) to a new repository [deploy key](https://developer.github.com/v3/guides/managing-deploy-keys/#deploy-keys) and check the box to "Allow write access."
@@ -207,7 +208,7 @@ How to use SSH (deploy keys) with create-pull-request action:
       # Make changes to pull request here
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: cvelab/actions@v5
 ```
 
 ### Push pull request branches to a fork
@@ -230,7 +231,7 @@ Note that if you choose to use this method (not give the machine account `write`
 
       # Make changes to pull request here
 
-      - uses: peter-evans/create-pull-request@v5
+      - uses: cvelab/actions@v5
         with:
           token: ${{ secrets.MACHINE_USER_PAT }}
           push-to-fork: machine-user/fork-of-repository
@@ -273,7 +274,7 @@ GitHub App generated tokens are more secure than using a PAT because GitHub App 
       # Make changes to pull request here
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: cvelab/actions@v5
         with:
           token: ${{ steps.generate-token.outputs.token }}
 ```
@@ -287,6 +288,7 @@ The action can use GPG to sign commits with a GPG key that you generate yourself
 2. [Add the public key](https://docs.github.com/en/github/authenticating-to-github/adding-a-new-gpg-key-to-your-github-account) to the user account associated with the [Personal Access Token (PAT)](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) that you will use with the action.
 
 3. Copy the private key to your clipboard, replacing `email@example.com` with the email address of your GPG key.
+
    ```
    # macOS
    gpg --armor --export-secret-key email@example.com | pbcopy
@@ -314,7 +316,7 @@ The action can use GPG to sign commits with a GPG key that you generate yourself
       # Make changes to pull request here
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: cvelab/actions@v5
         with:
           token: ${{ secrets.PAT }}
           committer: example <email@example.com>
@@ -329,6 +331,7 @@ This action requires `git` to be installed and on the `PATH`. Note that `actions
 The following examples of running in a container show the dependencies being installed during the workflow, but they could also be pre-installed in a custom image.
 
 **Alpine container example:**
+
 ```yml
 jobs:
   createPullRequestAlpine:
@@ -344,10 +347,11 @@ jobs:
       # Make changes to pull request here
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: cvelab/actions@v5
 ```
 
 **Ubuntu container example:**
+
 ```yml
 jobs:
   createPullRequestAlpine:
@@ -367,5 +371,5 @@ jobs:
       # Make changes to pull request here
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: cvelab/actions@v5
 ```

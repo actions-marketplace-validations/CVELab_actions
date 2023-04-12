@@ -1,6 +1,7 @@
 # <img width="24" height="24" src="docs/assets/logo.svg"> Create Pull Request
-[![CI](https://github.com/peter-evans/create-pull-request/workflows/CI/badge.svg)](https://github.com/peter-evans/create-pull-request/actions?query=workflow%3ACI)
-[![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Create%20Pull%20Request-blue.svg?colorA=24292e&colorB=0366d6&style=flat&longCache=true&logo=github)](https://github.com/marketplace/actions/create-pull-request)
+
+[![CI](https://github.com/cvelab/actions/workflows/CI/badge.svg)](https://github.com/cvelab/actions/actions?query=workflow%3ACI)
+[![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Create%20Pull%20Request-blue.svg?colorA=24292e&colorB=0366d6&style=flat&longCache=true&logo=github)](https://github.com/marketplace/actions/gh-pull-request)
 
 A GitHub action to create a pull request for changes to your repository in the actions workspace.
 
@@ -31,10 +32,10 @@ Create Pull Request action will:
       # Make changes to pull request here
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: cvelab/actions@v5
 ```
 
-You can also pin to a [specific release](https://github.com/peter-evans/create-pull-request/releases) version in the format `@v5.x.x`
+You can also pin to a [specific release](https://github.com/cvelab/actions/releases) version in the format `@v5.x.x`
 
 ### Workflow permissions
 
@@ -54,17 +55,17 @@ All inputs are **optional**. If not set, sensible defaults will be used.
 | `token` | `GITHUB_TOKEN` (permissions `contents: write` and `pull-requests: write`) or a `repo` scoped [Personal Access Token (PAT)](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token). | `GITHUB_TOKEN` |
 | `path` | Relative path under `GITHUB_WORKSPACE` to the repository. | `GITHUB_WORKSPACE` |
 | `add-paths` | A comma or newline-separated list of file paths to commit. Paths should follow git's [pathspec](https://git-scm.com/docs/gitglossary#Documentation/gitglossary.txt-aiddefpathspecapathspec) syntax. If no paths are specified, all new and modified files are added. See [Add specific paths](#add-specific-paths). | |
-| `commit-message` | The message to use when committing changes. | `[create-pull-request] automated change` |
+| `commit-message` | The message to use when committing changes. | `[gh-pull-request] automated change` |
 | `committer` | The committer name and email address in the format `Display Name <email@address.com>`. Defaults to the GitHub Actions bot user. | `GitHub <noreply@github.com>` |
 | `author` | The author name and email address in the format `Display Name <email@address.com>`. Defaults to the user who triggered the workflow run. | `${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>` |
 | `signoff` | Add [`Signed-off-by`](https://git-scm.com/docs/git-commit#Documentation/git-commit.txt---signoff) line by the committer at the end of the commit log message. | `false` |
-| `branch` | The pull request branch name. | `create-pull-request/patch` |
+| `branch` | The pull request branch name. | `gh-pull-request/patch` |
 | `delete-branch` | Delete the `branch` when closing pull requests, and when undeleted after merging. | `false` |
 | `branch-suffix` | The branch suffix type when using the alternative branching strategy. Valid values are `random`, `timestamp` and `short-commit-hash`. See [Alternative strategy](#alternative-strategy---always-create-a-new-pull-request-branch) for details. | |
 | `base` | Sets the pull request base branch. | Defaults to the branch checked out in the workflow. |
 | `push-to-fork` | A fork of the checked-out parent repository to which the pull request branch will be pushed. e.g. `owner/repo-fork`. The pull request will be created to merge the fork's branch into the parent's base. See [push pull request branches to a fork](docs/concepts-guidelines.md#push-pull-request-branches-to-a-fork) for details. | |
-| `title` | The title of the pull request. | `Changes by create-pull-request action` |
-| `body` | The body of the pull request. | `Automated changes by [create-pull-request](https://github.com/peter-evans/create-pull-request) GitHub action` |
+| `title` | The title of the pull request. | `Changes by gh-pull-request action` |
+| `body` | The body of the pull request. | `Automated changes by [gh-pull-request](https://github.com/cvelab/actions) GitHub action` |
 | `body-path` | The path to a file containing the pull request body. Takes precedence over `body`. | |
 | `labels` | A comma or newline-separated list of labels. | |
 | `assignees` | A comma or newline-separated list of assignees (GitHub usernames). | |
@@ -74,9 +75,10 @@ All inputs are **optional**. If not set, sensible defaults will be used.
 | `draft` | Create a [draft pull request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-pull-requests#draft-pull-requests). It is not possible to change draft status after creation except through the web interface. | `false` |
 
 For self-hosted runners behind a corporate proxy set the `https_proxy` environment variable.
+
 ```yml
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: cvelab/actions@v5
         env:
           https_proxy: http://<proxy_address>:<port>
 ```
@@ -96,7 +98,7 @@ Note that in order to read the step outputs the action step must have an id.
 ```yml
       - name: Create Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@v5
+        uses: cvelab/actions@v5
       - name: Check outputs
         if: ${{ steps.cpr.outputs.pull-request-number }}
         run: |
@@ -126,11 +128,11 @@ This strategy is *not recommended* because if not used carefully it could result
 
 To use this strategy, set input `branch-suffix` with one of the following options.
 
-- `random` - Commits will be made to a branch suffixed with a random alpha-numeric string. e.g. `create-pull-request/patch-6qj97jr`, `create-pull-request/patch-5jrjhvd`
+- `random` - Commits will be made to a branch suffixed with a random alpha-numeric string. e.g. `gh-pull-request/patch-6qj97jr`, `gh-pull-request/patch-5jrjhvd`
 
-- `timestamp` - Commits will be made to a branch suffixed by a timestamp. e.g. `create-pull-request/patch-1569322532`, `create-pull-request/patch-1569322552`
+- `timestamp` - Commits will be made to a branch suffixed by a timestamp. e.g. `gh-pull-request/patch-1569322532`, `gh-pull-request/patch-1569322552`
 
-- `short-commit-hash` - Commits will be made to a branch suffixed with the short SHA1 commit hash. e.g. `create-pull-request/patch-fcdfb59`, `create-pull-request/patch-394710b`
+- `short-commit-hash` - Commits will be made to a branch suffixed with the short SHA1 commit hash. e.g. `gh-pull-request/patch-fcdfb59`, `gh-pull-request/patch-394710b`
 
 ### Controlling committed files
 
@@ -159,7 +161,7 @@ File changes that do not match one of the paths will be stashed and restored aft
 
 ```yml
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: cvelab/actions@v5
         with:
           add-paths: |
             *.java
@@ -176,8 +178,8 @@ Note that the repository must be checked out on a branch with a remote, it won't
       - uses: actions/checkout@v3
       - name: Create commits
         run: |
-          git config user.name 'Peter Evans'
-          git config user.email 'peter-evans@users.noreply.github.com'
+          git config user.name 'CVE Lab'
+          git config user.email 'cvelab@users.noreply.github.com'
           date +%s > report.txt
           git commit -am "Modify tracked file during workflow"
           date +%s > new-report.txt
@@ -186,21 +188,21 @@ Note that the repository must be checked out on a branch with a remote, it won't
       - name: Uncommitted change
         run: date +%s > report.txt
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+        uses: cvelab/actions@v5
 ```
 
 ### Create a project card
 
-To create a project card for the pull request, pass the `pull-request-number` step output to [create-or-update-project-card](https://github.com/peter-evans/create-or-update-project-card) action.
+To create a project card for the pull request, pass the `pull-request-number` step output to [create-or-update-project-card](https://github.com/cvelab/create-or-update-project-card) action.
 
 ```yml
       - name: Create Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@v5
+        uses: cvelab/actions@v5
 
       - name: Create or Update Project Card
         if: ${{ steps.cpr.outputs.pull-request-number }}
-        uses: peter-evans/create-or-update-project-card@v2
+        uses: cvelab/create-or-update-project-card@v2
         with:
           project-name: My project
           column-name: My column
@@ -210,7 +212,7 @@ To create a project card for the pull request, pass the `pull-request-number` st
 ### Auto-merge
 
 Auto-merge can be enabled on a pull request allowing it to be automatically merged once requirements have been satisfied.
-See [enable-pull-request-automerge](https://github.com/peter-evans/enable-pull-request-automerge) action for usage details.
+See [enable-pull-request-automerge](https://github.com/cvelab/enable-pull-request-automerge) action for usage details.
 
 ## Reference Example
 
@@ -231,7 +233,7 @@ jobs:
 
       - name: Create Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@v5
+        uses: cvelab/actions@v5
         with:
           token: ${{ secrets.PAT }}
           commit-message: Update report
@@ -244,14 +246,14 @@ jobs:
           body: |
             Update report
             - Updated with *today's* date
-            - Auto-generated by [create-pull-request][1]
+            - Auto-generated by [gh-pull-request][1]
 
-            [1]: https://github.com/peter-evans/create-pull-request
+            [1]: https://github.com/cvelab/actions
           labels: |
             report
             automated pr
-          assignees: peter-evans
-          reviewers: peter-evans
+          assignees: cvelab
+          reviewers: cvelab
           team-reviewers: |
             developers
             qa-team

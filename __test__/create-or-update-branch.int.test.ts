@@ -4,9 +4,9 @@ import {
   getWorkingBaseAndType
 } from '../lib/create-or-update-branch'
 import * as fs from 'fs'
-import {GitCommandManager} from '../lib/git-command-manager'
+import { GitCommandManager } from '../lib/git-command-manager'
 import * as path from 'path'
-import {v4 as uuidv4} from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 
 const REPO_PATH = '/git/local/test-base'
 const REMOTE_NAME = 'origin'
@@ -19,7 +19,7 @@ const NOT_BASE_BRANCH = 'tests/branch-that-is-not-the-base'
 const NOT_EXIST_BRANCH = 'tests/branch-that-does-not-exist'
 
 const INIT_COMMIT_MESSAGE = 'Add file to be a tracked file for tests'
-const BRANCH = 'tests/create-pull-request/patch'
+const BRANCH = 'tests/gh-pull-request/patch'
 const BASE = DEFAULT_BRANCH
 
 const FORK_REMOTE_URL = 'git://127.0.0.1/test-fork.git'
@@ -32,14 +32,14 @@ const ADD_PATHS_WILDCARD = ['a/*.txt', 'b/*.txt']
 async function createFile(filename: string, content?: string): Promise<string> {
   const _content = content ? content : uuidv4()
   const filepath = path.join(REPO_PATH, filename)
-  await fs.promises.mkdir(path.dirname(filepath), {recursive: true})
-  await fs.promises.writeFile(filepath, _content, {encoding: 'utf8'})
+  await fs.promises.mkdir(path.dirname(filepath), { recursive: true })
+  await fs.promises.writeFile(filepath, _content, { encoding: 'utf8' })
   return _content
 }
 
 async function getFileContent(filename: string): Promise<string> {
   const filepath = path.join(REPO_PATH, filename)
-  return await fs.promises.readFile(filepath, {encoding: 'utf8'})
+  return await fs.promises.readFile(filepath, { encoding: 'utf8' })
 }
 
 interface ChangeContent {
@@ -69,7 +69,7 @@ async function createCommits(
   finalUntrackedContent?: string
 ): Promise<Commits> {
   let result: Commits = {
-    changes: {tracked: '', untracked: ''},
+    changes: { tracked: '', untracked: '' },
     commitMsgs: []
   }
   for (let i = 1; i <= number; i++) {
@@ -2154,7 +2154,7 @@ describe('create-or-update-branch tests', () => {
   })
 
   // This failure mode is a limitation of the action. Controlling your own commits cannot be used in detached HEAD state.
-  // https://github.com/peter-evans/create-pull-request/issues/902
+  // https://github.com/cvelab/actions/issues/902
   it('tests failure to create with commits on the working base (during the workflow) in detached HEAD state (WBNR)', async () => {
     // Checkout the HEAD commit SHA
     const headSha = await git.revParse('HEAD')

@@ -394,7 +394,7 @@ function createPullRequest(inputs) {
             // This command prunes the stale remote ref when the pull request branch was
             // deleted after being merged or closed. Without this the push using
             // '--force-with-lease' fails due to "stale info."
-            // https://github.com/peter-evans/create-pull-request/issues/633
+            // https://github.com/cvelab/actions/issues/633
             yield git.exec(['remote', 'prune', branchRemoteName]);
             core.endGroup();
             // Apply the branch suffix if set
@@ -1331,7 +1331,7 @@ function getRepoPath(relativePath) {
 exports.getRepoPath = getRepoPath;
 function getRemoteDetail(remoteUrl) {
     // Parse the protocol and github repository from a URL
-    // e.g. HTTPS, peter-evans/create-pull-request
+    // e.g. HTTPS, cvelab/actions
     const githubUrl = process.env['GITHUB_SERVER_URL'] || 'https://github.com';
     const githubServerMatch = githubUrl.match(/^https?:\/\/(.+)$/i);
     if (!githubServerMatch) {

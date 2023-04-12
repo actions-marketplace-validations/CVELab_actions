@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
-import {Inputs, createPullRequest} from './create-pull-request'
-import {inspect} from 'util'
+import { Inputs, createPullRequest } from './gh-pull-request'
+import { inspect } from 'util'
 import * as utils from './utils'
 
 async function run(): Promise<void> {

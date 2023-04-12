@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
-import {Inputs} from './create-pull-request'
-import {Octokit, OctokitOptions} from './octokit-client'
+import { Inputs } from './gh-pull-request'
+import { Octokit, OctokitOptions } from './octokit-client'
 import * as utils from './utils'
 
 const ERROR_PR_REVIEW_TOKEN_SCOPE =
@@ -49,7 +49,7 @@ export class GitHubHelper {
     // Try to create the pull request
     try {
       core.info(`Attempting creation of pull request`)
-      const {data: pull} = await this.octokit.rest.pulls.create({
+      const { data: pull } = await this.octokit.rest.pulls.create({
         ...this.parseRepository(baseRepository),
         title: inputs.title,
         head: headBranch,
@@ -77,14 +77,14 @@ export class GitHubHelper {
 
     // Update the pull request that exists for this branch and base
     core.info(`Fetching existing pull request`)
-    const {data: pulls} = await this.octokit.rest.pulls.list({
+    const { data: pulls } = await this.octokit.rest.pulls.list({
       ...this.parseRepository(baseRepository),
       state: 'open',
       head: headBranchFull,
       base: inputs.base
     })
     core.info(`Attempting update of pull request`)
-    const {data: pull} = await this.octokit.rest.pulls.update({
+    const { data: pull } = await this.octokit.rest.pulls.update({
       ...this.parseRepository(baseRepository),
       pull_number: pulls[0].number,
       title: inputs.title,
@@ -101,7 +101,7 @@ export class GitHubHelper {
   }
 
   async getRepositoryParent(headRepository: string): Promise<string> {
-    const {data: headRepo} = await this.octokit.rest.repos.get({
+    const { data: headRepo } = await this.octokit.rest.repos.get({
       ...this.parseRepository(headRepository)
     })
     if (!headRepo.parent) {

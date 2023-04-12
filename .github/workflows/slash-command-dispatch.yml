@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Slash Command Dispatch
-        uses: peter-evans/slash-command-dispatch@v3
+        uses: cvelab/slash-command-dispatch@v3
         with:
           token: ${{ secrets.ACTIONS_BOT_TOKEN }}
           config: >
@@ -15,19 +15,19 @@ jobs:
               {
                 "command": "test",
                 "permission": "admin",
-                "repository": "peter-evans/create-pull-request-tests",
+                "repository": "cvelab/actions-tests",
                 "named_args": true
               },
               {
                 "command": "testv4",
                 "permission": "admin",
-                "repository": "peter-evans/create-pull-request-tests",
+                "repository": "cvelab/actions-tests",
                 "named_args": true
               },
               {
                 "command": "clean",
                 "permission": "admin",
-                "repository": "peter-evans/create-pull-request-tests"
+                "repository": "cvelab/actions-tests"
               },
               {
                 "command": "cpr-example",
@@ -37,7 +37,7 @@ jobs:
               {
                 "command": "rebase",
                 "permission": "admin",
-                "repository": "peter-evans/slash-command-dispatch-processor",
+                "repository": "cvelab/slash-command-dispatch-processor",
                 "issue_type": "pull-request"
               }
             ]
