@@ -1,4 +1,4 @@
-name: Create Pull Request Example Command
+name: Github Pull Request Example Command
 on:
   repository_dispatch:
     types: [cpr-example-command]
@@ -11,7 +11,7 @@ jobs:
       - name: Make changes to pull request
         run: date +%s > report.txt
 
-      - name: Create Pull Request
+      - name: Github Pull Request
         id: cpr
         uses: ./
         with:

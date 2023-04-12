@@ -48,7 +48,7 @@ jobs:
       - name: Update AUTHORS
         run: |
           git log --format='%aN <%aE>%n%cN <%cE>' | sort -u > AUTHORS
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
         with:
           commit-message: update authors
@@ -80,7 +80,7 @@ jobs:
         run: |
           git fetch origin main:main
           git reset --hard main
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
         with:
           branch: production-promotion
@@ -115,7 +115,7 @@ jobs:
           chmod u+x git-chglog
           ./git-chglog -o CHANGELOG.md
           rm git-chglog
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
         with:
           commit-message: update changelog
@@ -152,7 +152,7 @@ jobs:
         run: |
           npx -p npm-check-updates ncu -u
           npm install
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
         with:
             token: ${{ secrets.PAT }}
@@ -213,7 +213,7 @@ jobs:
         run: chmod +x gradlew
       - name: Perform dependency resolution and write new lockfiles
         run: ./gradlew dependencies --write-locks
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
         with:
             token: ${{ secrets.PAT }}
@@ -248,7 +248,7 @@ jobs:
           cargo install cargo-edit
           cargo update
           cargo upgrade --to-lockfile
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
         with:
             token: ${{ secrets.PAT }}
@@ -307,7 +307,7 @@ jobs:
           sed -i "s|src=\"./|src=\"dist/|g" index.html
           # Update current release
           echo ${{ steps.swagger-ui.outputs.release_tag }} > swagger-ui.version
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
         with:
           commit-message: Update swagger-ui to ${{ steps.swagger-ui.outputs.release_tag }}
@@ -351,7 +351,7 @@ jobs:
           git remote add upstream https://github.com/owner/repo.git
           git fetch upstream main:upstream-main
           git reset --hard upstream-main
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
         with:
           token: ${{ secrets.PAT }}
@@ -384,7 +384,7 @@ jobs:
             --convert-links \
             --domains quotes.toscrape.com \
             http://quotes.toscrape.com/
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
         with:
           commit-message: update local website copy
@@ -480,7 +480,7 @@ jobs:
         run: |
           branch-name="autopep8-patches/${{ github.head_ref }}"
           echo "branch-name=$branch-name" >> $GITHUB_OUTPUT
-      - name: Create Pull Request
+      - name: Github Pull Request
         if: steps.autopep8.outputs.exit-code == 2
         uses: cvelab/actions@v5
         with:
@@ -534,7 +534,7 @@ If you have git hooks that prevent the action from working correctly you can rem
       # Remove git hooks
       - run: rm -rf .git/hooks
 
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
 ```
 
@@ -552,7 +552,7 @@ Note that the step where output variables are defined must have an id.
             by [gh-pull-request](https://github.com/cvelab/actions)."
           echo "pr_title=$pr_title" >> $GITHUB_OUTPUT
           echo "pr_body=$pr_body" >> $GITHUB_OUTPUT
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
         with:
           title: ${{ steps.vars.outputs.pr_title }}
@@ -580,7 +580,7 @@ The template is rendered using the [render-template](https://github.com/chuhlomi
             foo: this
             bar: that
 
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
         with:
           body: ${{ steps.template.outputs.result }}

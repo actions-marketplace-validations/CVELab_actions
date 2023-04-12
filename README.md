@@ -1,4 +1,4 @@
-# <img width="24" height="24" src="docs/assets/logo.svg"> Create Pull Request
+# <img width="24" height="24" src="docs/assets/logo.svg"> Github Pull Request
 
 [![CI](https://github.com/cvelab/actions/workflows/CI/badge.svg)](https://github.com/cvelab/actions/actions?query=workflow%3ACI)
 [![GitHub Marketplace](https://img.shields.io/badge/Marketplace-Create%20Pull%20Request-blue.svg?colorA=24292e&colorB=0366d6&style=flat&longCache=true&logo=github)](https://github.com/marketplace/actions/gh-pull-request)
@@ -9,7 +9,7 @@ Changes to a repository in the Actions workspace persist between steps in a work
 This action is designed to be used in conjunction with other steps that modify or add files to your repository.
 The changes will be automatically committed to a new branch and a pull request created.
 
-Create Pull Request action will:
+Github Pull Request action will:
 
 1. Check for repository changes in the Actions workspace. This includes:
    - untracked (new) files
@@ -31,7 +31,7 @@ Create Pull Request action will:
 
       # Make changes to pull request here
 
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
 ```
 
@@ -39,7 +39,7 @@ You can also pin to a [specific release](https://github.com/cvelab/actions/relea
 
 ### Workflow permissions
 
-For this action to work you must explicitly allow GitHub Actions to create pull requests.
+For this action to work you must explicitly allow GitHub Actions to Github Pull Requests.
 This setting can be found in a repository's settings under Actions > General > Workflow permissions.
 
 For repositories belonging to an organization, this setting can be managed by admins in organization settings under Actions > General > Workflow permissions.
@@ -77,7 +77,7 @@ All inputs are **optional**. If not set, sensible defaults will be used.
 For self-hosted runners behind a corporate proxy set the `https_proxy` environment variable.
 
 ```yml
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
         env:
           https_proxy: http://<proxy_address>:<port>
@@ -96,7 +96,7 @@ Step outputs can be accessed as in the following example.
 Note that in order to read the step outputs the action step must have an id.
 
 ```yml
-      - name: Create Pull Request
+      - name: Github Pull Request
         id: cpr
         uses: cvelab/actions@v5
       - name: Check outputs
@@ -160,7 +160,7 @@ Paths should follow git's [pathspec](https://git-scm.com/docs/gitglossary#Docume
 File changes that do not match one of the paths will be stashed and restored after the action has completed.
 
 ```yml
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
         with:
           add-paths: |
@@ -187,7 +187,7 @@ Note that the repository must be checked out on a branch with a remote, it won't
           git commit -m "Add untracked file during workflow"
       - name: Uncommitted change
         run: date +%s > report.txt
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
 ```
 
@@ -196,7 +196,7 @@ Note that the repository must be checked out on a branch with a remote, it won't
 To create a project card for the pull request, pass the `pull-request-number` step output to [create-or-update-project-card](https://github.com/cvelab/create-or-update-project-card) action.
 
 ```yml
-      - name: Create Pull Request
+      - name: Github Pull Request
         id: cpr
         uses: cvelab/actions@v5
 
@@ -231,7 +231,7 @@ jobs:
       - name: Make changes to pull request
         run: date +%s > report.txt
 
-      - name: Create Pull Request
+      - name: Github Pull Request
         id: cpr
         uses: cvelab/actions@v5
         with:

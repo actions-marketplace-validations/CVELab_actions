@@ -53,7 +53,7 @@ Workflow steps:
 
 The following git diagram shows how the action creates and updates a pull request branch.
 
-![Create Pull Request GitGraph](assets/cpr-gitgraph.png)
+![Github Pull Request GitGraph](assets/cpr-gitgraph.png)
 
 ## Guidelines
 
@@ -144,7 +144,7 @@ Pull requests created by the action using the default `GITHUB_TOKEN` cannot trig
 
 There are a number of workarounds with different pros and cons.
 
-- Use the default `GITHUB_TOKEN` and allow the action to create pull requests that have no checks enabled. Manually close pull requests and immediately reopen them. This will enable `on: pull_request` workflows to run and be added as checks. To prevent merging of pull requests without checks erroneously, use [branch protection rules](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests).
+- Use the default `GITHUB_TOKEN` and allow the action to Github Pull Requests that have no checks enabled. Manually close pull requests and immediately reopen them. This will enable `on: pull_request` workflows to run and be added as checks. To prevent merging of pull requests without checks erroneously, use [branch protection rules](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests).
 
 - Use a `repo` scoped [Personal Access Token (PAT)](https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token) created on an account that has write access to the repository that pull requests are being created in. This is the standard workaround and [recommended by GitHub](https://docs.github.com/en/actions/using-workflows/triggering-a-workflow#triggering-a-workflow-from-a-workflow). However, the PAT cannot be scoped to a specific repository so the token becomes a very sensitive secret. If this is a concern, the PAT can instead be created for a dedicated [machine account](https://docs.github.com/en/github/site-policy/github-terms-of-service#3-account-requirements) that has collaborator access to the repository. Also note that because the account that owns the PAT will be the creator of pull requests, that user account will be unable to perform actions such as request changes or approve the pull request.
 
@@ -207,7 +207,7 @@ How to use SSH (deploy keys) with gh-pull-request action:
 
       # Make changes to pull request here
 
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
 ```
 
@@ -273,7 +273,7 @@ GitHub App generated tokens are more secure than using a PAT because GitHub App 
 
       # Make changes to pull request here
 
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
         with:
           token: ${{ steps.generate-token.outputs.token }}
@@ -315,7 +315,7 @@ The action can use GPG to sign commits with a GPG key that you generate yourself
 
       # Make changes to pull request here
 
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
         with:
           token: ${{ secrets.PAT }}
@@ -346,7 +346,7 @@ jobs:
 
       # Make changes to pull request here
 
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
 ```
 
@@ -370,6 +370,6 @@ jobs:
 
       # Make changes to pull request here
 
-      - name: Create Pull Request
+      - name: Github Pull Request
         uses: cvelab/actions@v5
 ```
